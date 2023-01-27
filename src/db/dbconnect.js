@@ -1,12 +1,9 @@
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
-// const dbUrl = "mongodb://admin:1q2w#E$R@localhost:27017";
-// const dbUrl = "mongodb://root:root@localhost:27017";
 const userName = encodeURIComponent("admin");
 const password = encodeURIComponent("1q2w#E$R");
 const clusterUrl = "localhost:27017";
-// const clusterUrl = "0.0.0.0";
 
 const authMechanism = "DEFAULT";
 
@@ -38,10 +35,6 @@ async function connect(collectionname){
 
 async function find(collectionname, query, option) {
     try{
-        // await client.connect();
-
-        // const db = client.db(dbname);
-        // const collection = db.collection(collectionname);
         const collection = await connect(collectionname);
 
         const result = await collection.findOne(query, option);
@@ -63,9 +56,6 @@ async function find(collectionname, query, option) {
 async function insertOne(collectionname, doc){
 
     try {
-        // await client.connect();
-        // const db = client.db(dbname);
-        // const collection = db.collection(collectionname);
         const collection = await connect(collectionname);
         
         const result = await collection.insertOne(doc);
@@ -82,9 +72,6 @@ async function insertOne(collectionname, doc){
 
 async function updateOne(collectionname, doc){
     try {
-        // await client.connect();
-        // const db = client.db(dbname);
-        // const collection = db.collection(collectionname);
         const collection = await connect(collectionname);
         
         const result = await collection.insertOne(doc);
@@ -97,8 +84,5 @@ async function updateOne(collectionname, doc){
         console.log("client is closed")
     }
 }
-
-
-
 
 module.exports.database = database;
