@@ -1,7 +1,7 @@
 # shop_backend
 
 ## Getting Start
-start server for develop mode. (running nodemon)
+start server in develop mode. (running nodemon)
 ```
 $ npm run dev
 ```
