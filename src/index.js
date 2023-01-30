@@ -5,8 +5,7 @@ const { database } = require('./db/dbconnect.js');
 const app = express();
 const crypto = require('crypto');
 
-// const collectionname = "shopingmall";
-const collectionname = "TestDB";
+const collectionname = process.env.DB_COLLECTION_NAME_USER;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -68,9 +67,7 @@ app.post('/api/user/signup', async (req, res)=>{
     const name = req.body.name;
     const no = req.body.no;
     const fex = req.body.fex;
-    const category = req.category;
-
-    console.log(password);
+    const category = req.body.category;
 
     const doc = {
         id: id,
@@ -87,8 +84,22 @@ app.post('/api/user/signup', async (req, res)=>{
     res.send(result);
 });
 
-app.post('api/user/modify', (req, res)=>{
+app.post('api/user/modify', async (req, res)=>{
+    const id = req.body.id;
+    const password = hash(req.body.password);
+    const fex = req.body.fex;
+    const category = req.body.category;
 
+    const query = { id: id }
+
+    const updateDoc = {
+        $set: {
+            fex: fex,
+            category: category
+        }
+    }
+
+    const result = await database.updateOne(collectionname, query, updateDoc);
 });
 
 app.listen(3000, ()=>{

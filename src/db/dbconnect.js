@@ -1,9 +1,9 @@
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
-const userName = encodeURIComponent("admin");
-const password = encodeURIComponent("1q2w#E$R");
-const clusterUrl = "localhost:27017";
+const userName = encodeURIComponent(process.env.DB_USER);
+const password = encodeURIComponent(process.env.DB_PASSWORD);
+const clusterUrl = process.env.MONGO_URI;
 
 const authMechanism = "DEFAULT";
 
@@ -11,8 +11,7 @@ const uri = `mongodb://${userName}:${password}@${clusterUrl}/?authMechanism=${au
 
 const client = new MongoClient(uri);
 
-// const dbname = "shoppingmall";
-const dbname = "TestDB";
+const dbname = process.env.DB_NAME;
 
 const database = {
     find: find,
@@ -70,11 +69,11 @@ async function insertOne(collectionname, doc){
 
 }
 
-async function updateOne(collectionname, doc){
+async function updateOne(collectionname, query, doc){
     try {
         const collection = await connect(collectionname);
         
-        const result = await collection.insertOne(doc);
+        const result = await collection.updateOne(query, doc);
 
         return result;
     } catch(e) {
@@ -84,5 +83,8 @@ async function updateOne(collectionname, doc){
         console.log("client is closed")
     }
 }
+
+
+
 
 module.exports.database = database;
